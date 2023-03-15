@@ -22,3 +22,9 @@ export const months: string[] = [
     "November", 
     "December"
 ]
+
+export const prioColors = {
+    baixa: "bg-green-600",
+    media: "bg-yellow-500",
+    alta: "bg-red-600"
+}

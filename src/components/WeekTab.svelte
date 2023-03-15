@@ -20,7 +20,6 @@
         </div>
     </div>
     {#each Array(5) as _, i}
-
     <div class="py-4">
         <div>{weekDays[(date + 2 + i) % 7 ]}</div>
         <div class="grid grid-cols-2 gap-8 px-4">

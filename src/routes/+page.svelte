@@ -35,8 +35,13 @@
     <div class="row-start-2 bg-neutral-300 rounded-r-xl relative w-full h-full overflow-y-auto">
         {#if selectedTag === 0}
         <div class="grid grid-cols-4 py-8 px-4 gap-4 overflow-y-auto">
-            { #each Array(20) as _ }
-                <DayTodo title="pog" />
+            { #each Array(4) as _ }
+                <DayTodo 
+                    title="pog" 
+                    desc="champ"
+                    dueDate="00:00h"
+                    category={{name: "aquela", color: "#fbbf24"}}
+                />
 
                 { /each }
             </div>
