@@ -1,11 +1,11 @@
  <script lang="ts">
     import "iconify-icon"
 	import DayTodo from "../components/DayTodo.svelte";
-	import MonthTodo from "../components/MonthTodo.svelte";
+	import MonthTab from "../components/MonthTab.svelte";
 	import TopTab from "../components/TopTab.svelte";
-	import WeekTodo from "../components/WeekTodo.svelte";
+	import WeekTab from "../components/WeekTab.svelte";
     let selectedTag: number = 0;
-    let datas: string[] = ["Dia", "Mes", "Ano"]
+    let datas: string[] = ["Dia", "Semana", "Mes"]
     let formVisible: boolean = false;
     let catFormVisible: boolean = false;
  </script>   
@@ -41,9 +41,9 @@
                 { /each }
             </div>
         {:else if selectedTag === 1}
-        <WeekTodo />
+        <WeekTab />
         {:else}
-        <MonthTodo />
+        <MonthTab />
         {/if}
         <div 
             class="absolute right-0 top-0 bg-white rounded-[50%] w-8 h-8 flex justify-center items-center m-2"
