@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { weekDays } from "../utils/constants";
 	import WeekTodo from "./WeekTodo.svelte";
+    
     interface Todo {
         cid: number,
         t: string;
@@ -16,6 +17,7 @@
         nome: string;
         cor: string;
     }
+
     const sortedTodos: Todo[][] = []
     export let todos: Todo[];
     export let cats: Category[];
@@ -37,16 +39,16 @@
         <p>Today</p>
         <div class="grid grid-cols-2 gap-8 px-4">
             {#each sortedTodos[0] as todo}
-                <WeekTodo cat={cats[todo.cid]} prio={todo.p} time={todo.d} title={todo.t}/>
+            <WeekTodo cat={cats[todo.cid]} prio={todo.p} time={todo.d} title={todo.t}/>
             {/each}
-            <!-- <WeekTodo /> -->
         </div>
     </div>
     <div class="py-4">
         <p>Tomorrow</p>
         <div class="grid grid-cols-2 gap-8 px-4">
-            <!-- <WeekTodo />
-            <WeekTodo /> -->
+            {#each sortedTodos[1] as todo}
+            <WeekTodo cat={cats[todo.cid]} prio={todo.p} time={todo.d} title={todo.t}/>
+            {/each}
         </div>
     </div>
     {#each Array(5) as _, i}
