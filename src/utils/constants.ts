@@ -24,7 +24,7 @@ export const months: string[] = [
 ]
 
 export const prioColors = {
-    baixa: "bg-green-600",
-    media: "bg-yellow-500",
-    alta: "bg-red-600"
+    BAIXA: "bg-green-600",
+    MEDIA: "bg-yellow-500",
+    ALTA: "bg-red-600"
 }

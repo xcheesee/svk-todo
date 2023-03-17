@@ -8,6 +8,9 @@
     let datas: string[] = ["Dia", "Semana", "Mes"]
     let formVisible: boolean = false;
     let catFormVisible: boolean = false;
+    const todos = async () => await (await fetch("http://localhost:8080/todos")).json()
+    const categories = async () => await (await fetch("http://localhost:8080/cats")).json()
+
  </script>   
     
     
@@ -35,18 +38,27 @@
     <div class="row-start-2 bg-neutral-300 rounded-r-xl relative w-full h-full overflow-y-auto">
         {#if selectedTag === 0}
         <div class="grid grid-cols-4 py-8 px-4 gap-4 overflow-y-auto">
-            { #each Array(4) as _ }
+            {#await Promise.all([todos(), categories()])}
+                <p>Carregando...</p>
+            {:then [todos, cats]} 
+                { #each todos as todo }
                 <DayTodo 
-                    title="pog" 
-                    desc="champ"
-                    dueDate="00:00h"
-                    category={{name: "aquela", color: "#fbbf24"}}
+                    title={todo.t} 
+                    desc={todo.de}
+                    dueDate={todo.dd}
+                    category={cats[todo.cid]}
                 />
-
                 { /each }
+                
+            {/await}
+
             </div>
         {:else if selectedTag === 1}
-        <WeekTab />
+        {#await Promise.all([todos(), categories()])}
+        <p>Carregando...</p>
+        {:then [todos, cats]}
+        <WeekTab todos={todos} cats={cats}/>
+        {/await}
         {:else}
         <MonthTab />
         {/if}
@@ -100,7 +112,7 @@
             <label for="title" class="text-end">Title</label>
             <input class="border border-neutral-300 w-full rounded-md px-2" id="title" name="title"/>
             <label for="description" class="text-end">Color</label>
-            <input class="border border-neutral-300 w-full rounded-md px-2" id="description" name="desc"/>
+            <input class="border border-neutral-300 w-full rounded-md px-2" type="color" id="color" name="color"/>
             <div class="col-start-2 flex justify-end">
                 <button 
                     class="bg-blue-500 text-white text-xl font-bold px-2 py-1 rounded"

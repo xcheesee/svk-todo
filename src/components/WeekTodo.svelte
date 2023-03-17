@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { prioColors } from "../utils/constants";
-
-
-    export let cat: string = "afazeres"
-    export let prio: "baixa" | "media" | "alta" = "media"
+    interface Category {
+        id: number;
+        nome: string;
+        cor: string;
+    }
+    export let cat: Category;
+    export let prio: "BAIXA" | "MEDIA" | "ALTA" = "MEDIA"
     export let time: string = "N/A"
     export let prazo: string = "00:00h"
-
-    let title: string = "Lancar a braba"
+    export let title: string = "Lancar a braba"
 </script>
 
 <div class="overflow-x-hidden">
@@ -18,8 +20,8 @@
         </div>
         <div class="flex relative [&>*]:transition">
             <div class="absolute right-0 pr-8 text-neutral-500 text-base self-center">{time}</div>
-            <div class="bg-red-500 w-20 pl-4 h-full translate-x-[160%] hover:translate-x-[80%] break-words flex items-center">
-                <p class="text-sm text-[#f5f5f4] font-bold">{cat}</p>
+            <div class="w-20 pl-4 h-full translate-x-[160%] hover:translate-x-[80%] break-words flex items-center" style={`background-color: ${cat.cor}`}>
+                <p class="text-sm text-[#f5f5f4] font-bold">{cat.nome}</p>
             </div>
             <div class={`${prioColors[prio]} w-20 px-4 h-full translate-x-[80%] hover:translate-x-0 break-words`}>
                 <p class="text-sm text-center align-center">Prioridade</p>

@@ -1,14 +1,15 @@
 <script lang="ts">
-    export let category: {name: string, color: string}  = {name: "afazeres", color: "#ef4444"};
+    export let category: {nome: string, cor: string}  = {nome: "afazeres", cor: "#ef4444"};
     export let title: string;
     export let desc: string;
-    export let prio: "baixa" | "media" | "alta" = "baixa";
+    export let prio: "BAIXA" | "MEDIA" | "ALTA" = "BAIXA";
     export let dueDate: string;
+    console.log(category)
 </script>
 
 <div class="bg-white overflow-y-hidden w-[200px] h-[250px] relative rounded-lg">
-    <div class={`flex items-end -translate-y-[70%]  container hover:translate-y-0 transition pt-4`} style={`background-color: ${category.color};`}>
-        <p class="-translate-y-[45%] font-bold text-[#f5f5f4] px-2">{category.name}</p>
+    <div class={`flex items-end -translate-y-[70%]  container hover:translate-y-0 transition pt-4`} style={`background-color: ${category.cor};`}>
+        <p class="-translate-y-[45%] font-bold text-[#f5f5f4] px-2">{category.nome}</p>
     </div>
     <div class="text-3xl pl-2 pb-4 font-bold">{title}</div>
     <div class="pl-8">
