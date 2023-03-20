@@ -1,16 +1,21 @@
  <script lang="ts">
+	import { invalidate, invalidateAll } from "$app/navigation";
     import "iconify-icon"
 	import DayTodo from "../components/DayTodo.svelte";
 	import MonthTab from "../components/MonthTab.svelte";
 	import TopTab from "../components/TopTab.svelte";
 	import WeekTab from "../components/WeekTab.svelte";
+    import type { PageData } from "./$types";
+    export let data: PageData;
+    // async function getTodos() { return await (await fetch("http://localhost:8080/todos")).json()}
+    // async function getCategories() {return await (await fetch("http://localhost:8080/cats")).json()};
+
     let selectedTag: number = 0;
     let datas: string[] = ["Dia", "Semana", "Mes"]
     let formVisible: boolean = false;
     let catFormVisible: boolean = false;
-    const todos = async () => await (await fetch("http://localhost:8080/todos")).json()
-    const categories = async () => await (await fetch("http://localhost:8080/cats")).json()
-
+    // let todos: Promise<Todo[]> = getTodos()
+    // let categories: Promise<Category[]> = getCategories()
  </script>   
     
     
@@ -36,32 +41,26 @@
         </div>
     </div>
     <div class="row-start-2 bg-neutral-300 rounded-r-xl relative w-full h-full overflow-y-auto">
+        {#await data}
+        <p>Carregando...</p>
+        {:then {todos, categories}} 
         {#if selectedTag === 0}
         <div class="grid grid-cols-4 py-8 px-4 gap-4 overflow-y-auto">
-            {#await Promise.all([todos(), categories()])}
-                <p>Carregando...</p>
-            {:then [todos, cats]} 
                 { #each todos as todo }
                 <DayTodo 
-                    title={todo.t} 
-                    desc={todo.de}
-                    dueDate={todo.dd}
-                    category={cats[todo.cid]}
+                    title={todo.t || ""} 
+                    desc={todo.de ||  ""}
+                    dueDate={todo.dd || ""}
+                    category={data.categories[todo.cid || 0]}
                 />
                 { /each }
-                
-            {/await}
-
             </div>
         {:else if selectedTag === 1}
-        {#await Promise.all([todos(), categories()])}
-        <p>Carregando...</p>
-        {:then [todos, cats]}
-        <WeekTab todos={todos} cats={cats}/>
-        {/await}
+        <WeekTab todos={todos} cats={categories}/>
         {:else}
-        <MonthTab />
+        <MonthTab todos={todos} cats={categories}/>
         {/if}
+        {/await}
         <div 
             class="absolute right-0 top-0 bg-white rounded-[50%] w-8 h-8 flex justify-center items-center m-2"
             on:click={() => formVisible = true}
@@ -75,20 +74,43 @@
 <div class="absolute w-full h-full z-50 flex items-center justify-center" style="background: rgba(0, 0, 0, 0.6);">
     <div class="w-[500px] bg-white rounded-md">
         <form action="" id="todo-form" class="grid grid-cols-[min-content_1fr] gap-4 m-4" 
-            on:submit|preventDefault={(e) => {
+            on:submit|preventDefault={ async (e) => {
                 const formData = new FormData(e.currentTarget)
-                console.log(formData)
+                formData.append("uid", "0")
+                formData.append("don", "false")
+                formData.append("id", "0")
+                formData.append("d", `${new Date().toLocaleDateString("en-GB")}`)
+                const res = await fetch('http://localhost:8080/todos', {
+                    method: "POST",
+                    body: formData,
+                })
                 formVisible = false
+                invalidate("app:todos")
                 }}
         >
             <label for="title" class="text-end">Title</label>
-            <input class="border border-neutral-300 w-full rounded-md px-2" id="title" name="title"/>
+            <input class="border border-neutral-300 w-full rounded-md px-2" id="title" name="t"/>
             <label for="description" class="text-end">Description</label>
-            <input class="border border-neutral-300 w-full rounded-md px-2" id="description" name="desc"/>
+            <input class="border border-neutral-300 w-full rounded-md px-2" id="description" name="de"/>
             <label for="priority" class="text-end">Priority</label>
-            <input class="border border-neutral-300 w-full rounded-md px-2" id="priority" name="prio"/>
+            <select id="priority" name="p" class="border border-neutral-300 w-full rounded-md px-2">
+                <option value="BAIXA">Baixa</option>
+                <option value="MEDIA">Media</option>
+                <option value="ALTA">Alta</option>
+            </select>
+            <!-- <input class="border border-neutral-300 w-full rounded-md px-2" id="priority" name="p"/> -->
             <label for="deadline" class="text-end">Deadline</label>
-            <input class="border border-neutral-300 w-full rounded-md px-2" id="deadline" name="dl"/>
+            <input class="border border-neutral-300 w-full rounded-md px-2" id="deadline" name="dd"/>
+            <label for="category" class="text-end">Categoria</label>
+            <select class="border border-neutral-300 w-full rounded-md px-2" id="category" name="cid">
+                <!-- {#await getCategories()} -->
+                <!-- <option disabled>Carregando...</option> -->
+                <!-- {:then res}  -->
+                    {#each data.categories as cat}
+                    <option id={`${cat.id}`} value={cat.id}>{cat.nome}</option>
+                    {/each}
+                <!-- {/await} -->
+            </select>
             <div class="col-start-2 flex justify-end">
                 <button 
                     class="bg-blue-500 text-white text-xl font-bold px-2 py-1 rounded"
