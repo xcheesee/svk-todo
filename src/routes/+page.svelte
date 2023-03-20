@@ -103,13 +103,9 @@
             <input class="border border-neutral-300 w-full rounded-md px-2" id="deadline" name="dd"/>
             <label for="category" class="text-end">Categoria</label>
             <select class="border border-neutral-300 w-full rounded-md px-2" id="category" name="cid">
-                <!-- {#await getCategories()} -->
-                <!-- <option disabled>Carregando...</option> -->
-                <!-- {:then res}  -->
-                    {#each data.categories as cat}
-                    <option id={`${cat.id}`} value={cat.id}>{cat.nome}</option>
-                    {/each}
-                <!-- {/await} -->
+                {#each data.categories as cat}
+                <option id={`${cat.id}`} value={cat.id}>{cat.nome}</option>
+                {/each}
             </select>
             <div class="col-start-2 flex justify-end">
                 <button 

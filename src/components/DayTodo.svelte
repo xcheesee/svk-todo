@@ -18,8 +18,16 @@
         <div>{dueDate}</div>
     </div>
     <div class="absolute w-full bottom-0 flex justify-end px-4 gap-4 my-2">
-        <button class="p-2 bg-red-600 rounded text-[#f5f5f4] font-bold flex justify-center items-center"><iconify-icon icon="ri:delete-bin-6-line" width="20" /></button>
-        <button class="px-2 bg-blue-600 rounded text-[#f5f5f4] font-bold flex justify-center items-center"><iconify-icon icon="material-symbols:check-small" width="24" /></button>
+        <button 
+            class="p-2 bg-red-600 rounded text-[#f5f5f4] font-bold flex justify-center items-center"
+            on:click={() => {}}
+            on:keypress={() => {}}
+        >
+            <iconify-icon icon="ri:delete-bin-6-line" width="20"
+        /></button>
+        <button class="px-2 bg-blue-600 rounded text-[#f5f5f4] font-bold flex justify-center items-center">
+            <iconify-icon icon="material-symbols:check-small" width="24" />
+        </button>
     </div>
 </div>
 
