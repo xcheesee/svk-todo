@@ -6,6 +6,7 @@ export interface Todo {
     d: string | null;
     dd: string | null;
     don: boolean | null;
+    id: number;
 }
 
 export interface Category {

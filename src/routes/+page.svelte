@@ -52,6 +52,7 @@
                     desc={todo.de ||  ""}
                     dueDate={todo.dd || ""}
                     category={data.categories[todo.cid || 0]}
+                    id={todo.id}
                 />
                 { /each }
             </div>

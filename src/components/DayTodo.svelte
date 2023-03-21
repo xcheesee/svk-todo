@@ -1,9 +1,13 @@
 <script lang="ts">
+	import { invalidate } from "$app/navigation";
+import { stringify } from "postcss";
+
     export let category: {nome: string, cor: string}  = {nome: "afazeres", cor: "#ef4444"};
     export let title: string;
     export let desc: string;
     export let prio: "BAIXA" | "MEDIA" | "ALTA" = "BAIXA";
     export let dueDate: string;
+    export let id: number
     console.log(category)
 </script>
 
@@ -20,7 +24,17 @@
     <div class="absolute w-full bottom-0 flex justify-end px-4 gap-4 my-2">
         <button 
             class="p-2 bg-red-600 rounded text-[#f5f5f4] font-bold flex justify-center items-center"
-            on:click={() => {}}
+            on:click={async () => {
+                try{
+                    await fetch(`http://localhost:8080/todos?id=${id}`, {
+                        method: "DELETE",
+                        
+                    })
+                    invalidate("app:todos")
+                } catch(e) {
+                    console.error(e)
+                }
+            }}
             on:keypress={() => {}}
         >
             <iconify-icon icon="ri:delete-bin-6-line" width="20"
