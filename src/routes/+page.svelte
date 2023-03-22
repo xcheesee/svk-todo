@@ -1,5 +1,5 @@
  <script lang="ts">
-	import { invalidate, invalidateAll } from "$app/navigation";
+	import { invalidate } from "$app/navigation";
     import "iconify-icon"
 	import DayTodo from "../components/DayTodo.svelte";
 	import MonthTab from "../components/MonthTab.svelte";
@@ -99,7 +99,6 @@
                 <option value="MEDIA">Media</option>
                 <option value="ALTA">Alta</option>
             </select>
-            <!-- <input class="border border-neutral-300 w-full rounded-md px-2" id="priority" name="p"/> -->
             <label for="deadline" class="text-end">Deadline</label>
             <input class="border border-neutral-300 w-full rounded-md px-2" id="deadline" name="dd"/>
             <label for="category" class="text-end">Categoria</label>

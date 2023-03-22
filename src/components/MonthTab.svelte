@@ -17,10 +17,10 @@
     todos.forEach((todo) => {
         const day = getDay(todo.d || "")
         if(+day - today >= 0 && +day - today < 31) {
-            sortedTodos[+day - today] = [...sortedTodos[+day - today], todo]
+            sortedTodos[+day - 1] = [...sortedTodos[+day - 1], todo]
         }
-        console.log(sortedTodos, day, today)
     })
+    console.log(sortedTodos)
     const monthDays = getDays(year, month + 1)
     const months = [
         "January", 
@@ -50,20 +50,32 @@
         todo={sortedTodos[0][0]}
         index={0} 
         weekday={weekday}
+        today={today}
     />
     {:else}
     <MonthTodo 
         firstDay 
         index={0} 
         weekday={weekday}
+        today={today}
     />
     {/if}
     <!-- loop jumps first iteration for week day positioning -->
     {#each Array(monthDays - 1) as _, index}
     {#if sortedTodos[index + 1][0]}
-    <MonthTodo index={index + 1} todo={sortedTodos[index + 1][0]} count={sortedTodos[index + 1].length} weekday={weekday} />
+    <MonthTodo 
+        index={index + 1} 
+        todo={sortedTodos[index + 1][0]} 
+        count={sortedTodos[index + 1].length} 
+        weekday={weekday} 
+        today={today}
+    />
     {:else}
-    <MonthTodo index={index + 1} weekday={weekday} />
+    <MonthTodo 
+        index={index + 1} 
+        weekday={weekday} 
+        today={today}
+    />
     {/if}
     {/each}
 </div>
